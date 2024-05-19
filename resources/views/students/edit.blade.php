@@ -15,18 +15,29 @@
     </div>
     <div class="mb-3">
         <label for="email1" class="form-label">Email</label>
-        <input value="{{$student->email}}" type="email" class="form-control" id="email1" name="email" aria-describedby="">
+        <input value="{{old('email') ?? $student->email}}" type="email" class="form-control" id="email1" name="email" aria-describedby="">
         @error('email')
             <div class="color-red text-sm">{{$message}}</div>
         @enderror
     </div>
     <div class="mb-3">
         <label for="phone" class="form-label">Phone</label>
-        <input value="{{$student->phone}}" type="text" class="form-control" id="phone" name="phone">
+        <input value="{{old('phone') ?? $student->phone}}" type="text" class="form-control" id="phone" name="phone">
         @error('phone')
             <div class="color-red text-sm">{{$message}}</div>
         @enderror
     </div>
-    <button type="submit" class="btn btn-primary">Save</button>
+    <div class="mb-3">
+        <select name="status" class="form-select" aria-label="">
+            <option selected value="">Selelct Student Status</option>
+            <option value="0">InActive</option>
+            <option value="1">Active</option>
+            <option value="2">Suspended</option>
+        </select>
+        @error('status')
+            <div class="color-red text-sm">{{ $message }}</div>
+        @enderror
+    </div>
+    <button  type="submit" class="btn btn-primary">Save</button>
 </form>
 @endsection

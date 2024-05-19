@@ -10,9 +10,21 @@
 
 <a href="{{url('/student/create')}}" class=" btn btn-primary">Add new Student</a>
 
-
+<div class="col text-end">
+    <div class="dropdown ">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Status Filter
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{{ url('/student?status=all')}}">All</a></li>
+        <li><a class="dropdown-item" href="{{ url('/student')}}">Active</a></li>
+        <li><a class="dropdown-item" href="{{ url('/student?status=inactive')}}">Inactive</a></li>
+        <li><a class="dropdown-item" href="{{ url('/student?status=suspend')}}">Suspend</a></li>
+    </ul>
+    </div>
+</div>
 <table class="table">
-    <thead>
+    <thead> 
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
@@ -48,7 +60,7 @@
         </tr>
         @empty
         <tr>
-            <td colspan="7">No students found</td>
+            <td colspan="8">No students found</td>
         </tr>
         @endforelse 
     </tbody>
