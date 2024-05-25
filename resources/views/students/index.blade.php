@@ -2,35 +2,43 @@
 
 @section('title', 'Student List')
 @section('content')
-<h1>Student List</h1>
+<h1 class="py-4">Student List</h1>
 
 @if (Session::has('msg'))
-    <div class="alert alret-success">{{session::get('msg')}}</div>
+<div class="alert alret-success">{{session::get('msg')}}</div>
 @endif
 
-<a href="{{url('/student/create')}}" class=" btn btn-primary">Add new Student</a>
-
-<div class="col text-end">
-    <div class="dropdown ">
-    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Status Filter
-    </button>
-    <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="{{ url('/student?status=all')}}">All</a></li>
-        <li><a class="dropdown-item" href="{{ url('/student')}}">Active</a></li>
-        <li><a class="dropdown-item" href="{{ url('/student?status=inactive')}}">Inactive</a></li>
-        <li><a class="dropdown-item" href="{{ url('/student?status=suspend')}}">Suspend</a></li>
-    </ul>
+<div class="row py-2">
+    <div class="col">
+        <a href="{{url('/student/create')}}" class=" btn btn-primary">Add new Student</a>
+    </div>
+    <div class="col text-end">
+        <form action="{{ url('/student')}}" method="GET">
+            <input type="text" class="form-control" name="search" value="{{ request() -> search}}">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>Search</button>
+        </form>
+        <div class="dropdown ">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Status Filter
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ url('/student?status=all')}}">All</a></li>
+                <li><a class="dropdown-item" href="{{ url('/student')}}">Active</a></li>
+                <li><a class="dropdown-item" href="{{ url('/student?status=inactive')}}">Inactive</a></li>
+                <li><a class="dropdown-item" href="{{ url('/student?status=suspend')}}">Suspend</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 <table class="table">
-    <thead> 
+    <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Phone No</th>
             <th scope="col">Status</th>
+            <th scope="col">Total Payment</th>
             <th scope="col">Created At</th>
             <th scope="col">Updated At</th>
             <th scope="col">Action</th>
@@ -44,11 +52,13 @@
             <td>{{$student -> email}}</td>
             <td>{{$student -> phone}}</td>
             <td>{{$student -> getStatus() }}</td>
+            <td>{{$student -> totalPayments() }}</td>
             <td>{{$student -> created_at -> format('y-F-d')}}</td>
             <td>{{$student -> updated_at -> diffForHumans()}}</td>
             <td>
                 <div>
                     <a href="{{route('student.view', [$student->id])}}" class=" btn btn-primary">View</a>
+                    <a href="{{route('student.payment', [$student->id])}}" class=" btn btn-dark">Payment</a>
                     <a href="{{url('/student/edit/'. $student->id)}}" class=" btn btn-primary">Edit</a>
                     <form action="{{url('/student/delete/'. $student->id)}}" method="POST">
                         @csrf
@@ -62,9 +72,9 @@
         <tr>
             <td colspan="8">No students found</td>
         </tr>
-        @endforelse 
+        @endforelse
     </tbody>
 </table>
 
-{{ $students->links()}}
+{{ $students->appends(request()->input())->links()}}
 @endsection

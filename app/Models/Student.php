@@ -19,4 +19,14 @@ class Student extends Model
             return 'Inactive';
         };
     }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function totalPayments()
+    {
+        return "Rs." . number_format($this->payments()->sum('amount'), 2);
+    }
 }

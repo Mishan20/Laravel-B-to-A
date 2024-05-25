@@ -19,3 +19,5 @@ Route::post('/student/edit/{id}', [StudentController::class, 'update']);
 
 Route::delete('/student/delete/{id}', [StudentController::class, 'delete']);
 Route::get('student/view/{id}', [StudentController::class, 'view']) -> name('student.view');
+Route::get('student/payment/{id}', [StudentController::class, 'payment']) -> name('student.payment');
+Route::post('student/payment/{id}', [StudentController::class, 'savePayment']);
