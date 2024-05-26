@@ -27,6 +27,7 @@ class Student extends Model
 
     public function totalPayments()
     {
-        return "Rs." . number_format($this->payments()->sum('amount'), 2);
+        $total = $this->payments()->sum('amount');
+        return $total > 0 ? "Rs." . number_format($total, 2) : "-";
     }
 }

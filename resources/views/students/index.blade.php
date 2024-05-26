@@ -14,7 +14,7 @@
     </div>
     <div class="col text-end">
         <form action="{{ url('/student')}}" method="GET">
-            <input type="text" class="form-control" name="search" value="{{ request() -> search}}">
+            <input type="text" class="form-control" name="search" placeholder="Search Name or Email" value="{{ request() -> search}}">
             <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>Search</button>
         </form>
         <div class="dropdown ">
@@ -22,10 +22,10 @@
                 Status Filter
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ url('/student?status=all')}}">All</a></li>
-                <li><a class="dropdown-item" href="{{ url('/student')}}">Active</a></li>
-                <li><a class="dropdown-item" href="{{ url('/student?status=inactive')}}">Inactive</a></li>
-                <li><a class="dropdown-item" href="{{ url('/student?status=suspend')}}">Suspend</a></li>
+            <li><a class="dropdown-item" href="{{ url('/student') }}?search={{ request()->search }}&status=all">All</a></li>
+            <li><a class="dropdown-item" href="{{ url('/student') }}?search={{ request()->search }}&status=active">Active</a></li>
+            <li><a class="dropdown-item" href="{{ url('/student') }}?search={{ request()->search }}&status=inactive">Inactive</a></li>
+            <li><a class="dropdown-item" href="{{ url('/student') }}?search={{ request()->search }}&status=suspend">Suspend</a></li>
             </ul>
         </div>
     </div>

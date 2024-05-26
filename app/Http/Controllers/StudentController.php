@@ -10,22 +10,30 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
-        $students = Student::orderBy('id', 'desc');
+        $students = Student::query()->orderBy('id', 'desc');
 
-        if ($request->search) {
-            $students = $students->where('name', 'like', '%' . $request->search . '%')->orwhere('email', 'like', '%' . $request->search . '%');
+        if ($request->has('search')) {
+            $searchTerm = $request->search;
+            $students->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('email', 'like', '%' . $searchTerm . '%');
+            });
         }
-        if ($request->status == 'inactive') {
-            $students = $students->where('status', '=', 0);
-        } elseif ($request->status == 'suspend') {
-            $students = $students->where('status', '=', 2);
-        } elseif ($request->status == 'active') {
-            $students = $students->where('status', '=', 1);
+        if ($request->has('status')) {
+            $status = $request->status;
+            if ($status === 'inactive') {
+                $students->where('status', 0);
+            } else if ($status === 'suspend') {
+                $students->where('status', 2);
+            } else if ($status === 'active') {
+                $students->where('status', 1);
+            }
         }
         $students = $students->paginate(10);
 
         return view('students.index', compact('students'));
     }
+
 
     public function create()
     {
@@ -115,6 +123,14 @@ class StudentController extends Controller
 
     public function savePayment(Request $request, $id)
     {
+        $request->validate(
+            [
+                'payment' => "required|numeric|min:0.01",
+            ],
+            [
+                'payment.required' => 'Payment is required',
+            ]
+        );
         $payment = new Payment();
 
         $payment->student_id = $id;
