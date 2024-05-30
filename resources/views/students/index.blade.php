@@ -21,11 +21,12 @@
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Status Filter
             </button>
+            <!-- {{request()->fullUrlWithQuery(['status' => 'all', 'page' => null, 'search' => null])}} -->
             <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{ url('/student') }}?search={{ request()->search }}&status=all">All</a></li>
             <li><a class="dropdown-item" href="{{ url('/student') }}?search={{ request()->search }}&status=active">Active</a></li>
-            <li><a class="dropdown-item" href="{{ url('/student') }}?search={{ request()->search }}&status=inactive">Inactive</a></li>
-            <li><a class="dropdown-item" href="{{ url('/student') }}?search={{ request()->search }}&status=suspend">Suspend</a></li>
+            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['status' => 'inactive', 'page' => null])}}">Inactive</a></li>
+            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['status' => 'suspend', 'page' => null])}}">Suspend</a></li>
             </ul>
         </div>
     </div>

@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'textitbiz' => [
+        'username' => env('SMS_USER_NAME'),
+        'password' => env('SMS_PASSWORD')
+    ]
+
 ];

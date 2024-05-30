@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
+use App\Mail\PaymentSuccess;
 use App\Models\Payment;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class StudentController extends Controller
 {
@@ -136,6 +138,25 @@ class StudentController extends Controller
         $payment->student_id = $id;
         $payment->amount = $request->payment;
         $payment->save();
+
+        
+
+        //send email
+        Mail::to('ishansenanayaka1@gmail.com')->send(new PaymentSuccess($request->payment, $payment->student->name)); 
+        //send sms
+        $text = urlencode("This is an example message");
+        $to = "94724860510";
+
+        // $this->sendSMS($to, $text);
         return redirect('/student');
+    }
+
+    public function sendSMS($to, $text){
+        $user = config('services.textitbiz.username');
+        $password = config('services.textitbiz.password');
+
+        $baseurl = "http://www/textit.biz/sendmsg";
+        $url = "$baseurl/?id=$user&pw=$password&to=$to&text=$text";
+        $ret = file($url);
     }
 }
