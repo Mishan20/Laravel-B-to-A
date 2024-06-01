@@ -142,7 +142,14 @@ class StudentController extends Controller
         
 
         //send email
-        Mail::to('ishansenanayaka1@gmail.com')->send(new PaymentSuccess($request->payment, $payment->student->name)); 
+
+        //send the mail immediately
+        // Mail::to('ishansenanayaka1@gmail.com')->send(new PaymentSuccess($request->payment, $payment->student->name));
+        Mail::to('ishansenanayaka1@gmail.com')->send(new PaymentSuccess($payment));
+
+        //send the mail in the queue
+        // Mail::to('ishansenanayaka1@gmail.com')->queue(new PaymentSuccess($request->payment, $payment->student->name)); 
+
         //send sms
         $text = urlencode("This is an example message");
         $to = "94724860510";

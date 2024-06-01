@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Payment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
@@ -19,10 +20,9 @@ class PaymentSuccess extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct( $payment, $name)
+    public function __construct( Payment $payment)
     {
         $this->cpayment = $payment;
-        $this->cname = $name;
     }
 
     /**

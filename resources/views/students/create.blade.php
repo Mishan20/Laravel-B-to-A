@@ -29,6 +29,28 @@
     </div>
 
     <div class="mb-3">
+        <label for="">
+            <input type="checkbox" name="subject[]" value="subject1" >
+            Subject 1
+        </label>
+
+        <label for="">
+            <input type="checkbox" name="subject[]" value="subject2">
+            Subject 2
+        </label>
+
+        <label for="">
+            <input type="checkbox" name="subject[]" value="subject3">
+            Subject 3
+        </label>
+
+        <label for="">
+            <input type="checkbox" name="subject[]" value="subject4">
+            Subject 4
+        </label>
+    </div>
+
+    <div class="mb-3">
         <select name="status" class="form-select" aria-label="">
             <option selected value="">Selelct Student Status</option>
             <option value="0">InActive</option>

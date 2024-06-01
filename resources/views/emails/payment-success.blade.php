@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    {{$cname}} 
-   {{$cpayment}}
+    {{$cpayment->student->name}} 
+   {{$cpayment->amount}}
 </body>
 </html>
