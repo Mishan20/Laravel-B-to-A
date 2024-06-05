@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\PaymentSuccess;
 use App\Models\Payment;
 use App\Models\Student;
+use App\Mail\PaymentSuccess;
 use Illuminate\Http\Request;
+use App\Models\StudentSubject;
 use Illuminate\Support\Facades\Mail;
 
 class StudentController extends Controller
@@ -48,14 +49,16 @@ class StudentController extends Controller
                 'name' => "required",
                 'email' => "required|email",
                 'phone' => "required|unique:students,phone",
-                'status' => "required"
+                'status' => "required",
+                'subject[]' => "required"
             ],
             [
                 'name.required' => 'Name is required',
                 'email.required' => 'Email is required',
                 'email.unique' => 'Email already exists',
                 'phone.required' => 'Phone is required',
-                'status.required' => 'Status is required'
+                'status.required' => 'Status is required',
+                'subject[].required' => "Please select atleast one subject",
             ]
         );
         $student = new Student();
@@ -66,6 +69,13 @@ class StudentController extends Controller
         $student->status = $request->status;
         $student->save();
 
+        foreach($request->subjects as $subject){
+            $studentSubject = new StudentSubject();
+
+            $studentSubject->student_id = $student->id;
+            $studentSubject->name = $subject;
+            $studentSubject->save();    
+        }
         return redirect('/student')->with(['msg' => 'New Student Added Successfully']);
     }
 
@@ -84,13 +94,13 @@ class StudentController extends Controller
                 'name' => "required",
                 'email' => "required|email",
                 'phone' => "required|unique:students,phone," . $id,
-                'status' => "required"
+                'status' => "required",
             ],
             [
                 'name.required' => 'Name is required',
                 'email.required' => 'Email is required',
                 'email.unique' => 'Email already exists',
-                'phone.required' => 'Phone is required'
+                'phone.required' => 'Phone is required', 
             ]
         );
 

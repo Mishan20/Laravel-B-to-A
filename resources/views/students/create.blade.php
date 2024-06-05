@@ -30,24 +30,27 @@
 
     <div class="mb-3">
         <label for="">
-            <input type="checkbox" name="subject[]" value="subject1" >
+            <input type="checkbox" name="subjects[]" value="subject1" >
             Subject 1
         </label>
 
         <label for="">
-            <input type="checkbox" name="subject[]" value="subject2">
+            <input type="checkbox" name="subjects[]" value="subject2">
             Subject 2
         </label>
 
         <label for="">
-            <input type="checkbox" name="subject[]" value="subject3">
+            <input type="checkbox" name="subjects[]" value="subject3">
             Subject 3
         </label>
 
         <label for="">
-            <input type="checkbox" name="subject[]" value="subject4">
+            <input type="checkbox" name="subjects[]" value="subject4">
             Subject 4
         </label>
+        @error('subject[]')
+            <div class="color-red text-sm">{{ $message }}</div>
+        @enderror
     </div>
 
     <div class="mb-3">

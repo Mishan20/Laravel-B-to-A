@@ -39,6 +39,7 @@
             <th scope="col">Email</th>
             <th scope="col">Phone No</th>
             <th scope="col">Status</th>
+            <th scope="col">Subjects</th>
             <th scope="col">Total Payment</th>
             <th scope="col">Created At</th>
             <th scope="col">Updated At</th>
@@ -53,6 +54,11 @@
             <td>{{$student -> email}}</td>
             <td>{{$student -> phone}}</td>
             <td>{{$student -> getStatus() }}</td>
+            <td>
+                @foreach($student -> subjects  as $subject)
+                    {{$subject->name}}
+                @endforeach
+            </td>
             <td>{{$student -> totalPayments() }}</td>
             <td>{{$student -> created_at -> format('y-F-d')}}</td>
             <td>{{$student -> updated_at -> diffForHumans()}}</td>

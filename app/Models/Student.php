@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\StudentSubject;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Model
 {
@@ -25,9 +26,19 @@ class Student extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function subjects(){
+        return $this->hasMany(StudentSubject::class);
+    }
+
     public function totalPayments()
     {
-        $total = $this->payments()->sum('amount');
-        return $total > 0 ? "Rs." . number_format($total, 2) : "-";
+        // $total = $this->payments()->sum('amount');
+        // return $total > 0 ? "Rs." . number_format($total, 2) : "-";
+
+        if($this->payments()->count()){
+            return "Rs " . number_format($this->payments()->sum('amount'), 2) ;
+        }
+
+        return "-";
     }
 }
