@@ -27,6 +27,25 @@
             <div class="color-red text-sm">{{$message}}</div>
         @enderror
     </div>
+
+    <div class="mb-3">
+        @php
+            $subjects = ['subject1', 'subject2', 'subject3', 'subject4'];
+        @endphp
+
+        @foreach($subjects as $subject)
+            <label for="">
+                <input type="checkbox" name="subjects[]" value="{{ $subject }}" 
+                       {{ in_array($subject, old('subjects', $studentSubjects)) ? 'checked' : '' }}>
+                {{ ucfirst($subject) }}
+            </label>
+        @endforeach
+        
+        @error('subjects')
+            <div class="color-red text-sm">{{ $message }}</div>
+        @enderror
+    </div>
+
     <div class="mb-3">
         <select name="status" class="form-select" aria-label="">
             <option selected value="">Selelct Student Status</option>

@@ -50,7 +50,7 @@ class StudentController extends Controller
                 'email' => "required|email",
                 'phone' => "required|unique:students,phone",
                 'status' => "required",
-                'subject[]' => "required"
+                'subjects' => "required|array"
             ],
             [
                 'name.required' => 'Name is required',
@@ -58,7 +58,7 @@ class StudentController extends Controller
                 'email.unique' => 'Email already exists',
                 'phone.required' => 'Phone is required',
                 'status.required' => 'Status is required',
-                'subject[].required' => "Please select atleast one subject",
+                'subjects.required' => "Please select atleast one subject",
             ]
         );
         $student = new Student();
@@ -69,12 +69,11 @@ class StudentController extends Controller
         $student->status = $request->status;
         $student->save();
 
-        foreach($request->subjects as $subject){
+        foreach ($request->subjects as $subject) {
             $studentSubject = new StudentSubject();
-
             $studentSubject->student_id = $student->id;
             $studentSubject->name = $subject;
-            $studentSubject->save();    
+            $studentSubject->save();
         }
         return redirect('/student')->with(['msg' => 'New Student Added Successfully']);
     }
@@ -82,8 +81,8 @@ class StudentController extends Controller
     public function edit($id)
     {
         $student = Student::find($id);
-
-        return view('students.edit', compact('student'));
+        $studentSubjects = StudentSubject::where('student_id', $id)->pluck('name')->toArray();
+        return view('students.edit', compact('student' , 'studentSubjects'));
     }
 
     public function update(Request $request, $id)
@@ -95,12 +94,14 @@ class StudentController extends Controller
                 'email' => "required|email",
                 'phone' => "required|unique:students,phone," . $id,
                 'status' => "required",
+                'subjects' => "required|array",
             ],
             [
                 'name.required' => 'Name is required',
                 'email.required' => 'Email is required',
                 'email.unique' => 'Email already exists',
                 'phone.required' => 'Phone is required', 
+                'subjects.required' => "Please select at least one subject",
             ]
         );
 
@@ -110,13 +111,27 @@ class StudentController extends Controller
         $student->phone = $request->phone;
         $student->status = $request->status;
         $student->save();
+
+        StudentSubject::where('student_id', $id)->delete(); // Remove old subjects
+        foreach ($request->subjects as $subject) {
+            $studentSubject = new StudentSubject();
+            $studentSubject->student_id = $student->id;
+            $studentSubject->name = $subject;
+            $studentSubject->save();
+    }
+
         return redirect('/student');
     }
 
     public function delete($id)
     {
         $student = Student::find($id);
-        $student->delete();
+
+        if ($student) {
+            $student->payments()->delete();
+            $student->subjects()->delete();
+            $student->delete();
+        }
         return redirect('/student');
     }
 

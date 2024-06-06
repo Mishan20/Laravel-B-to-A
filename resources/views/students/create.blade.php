@@ -48,7 +48,7 @@
             <input type="checkbox" name="subjects[]" value="subject4">
             Subject 4
         </label>
-        @error('subject[]')
+        @error('subjects')
             <div class="color-red text-sm">{{ $message }}</div>
         @enderror
     </div>
